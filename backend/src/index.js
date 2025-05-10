@@ -10,14 +10,13 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json()); //extract json data from body
-app.use(cookieParser()); 
+app.use(cookieParser()); //to grab the token from the cookie
 
 app.get('/', (req,res)=>{
     res.status(200).send("Wassup Nigga!");
 });
 
 app.use("/api/v1/auth", authRoutes);
-
 
 app.listen(PORT, ()=>{
     console.log(`server is running on the port ${PORT}`);
