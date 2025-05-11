@@ -10,6 +10,7 @@ router.post("/logout", logout)
 
 router.put("/update-profile", verifyToken, updateProfile);
 
-router.get("/check-auth", verifyToken,checkAuth)
+router.get("/check-auth", verifyToken,checkAuth);
+
 
 export default router
