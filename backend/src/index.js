@@ -4,12 +4,18 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import cors from "cors"
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}
+));
 app.use(express.json()); //extract json data from body
 app.use(cookieParser()); //to grab the token from the cookie
 
