@@ -28,7 +28,7 @@ function App() {
    
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div>
+      <div className="max-w-[80%] mx-auto">
         <Navbar/>
         <Routes>
           <Route path="/" element={authUser? <HomePage/> : <Navigate to="/login"/>}/>
