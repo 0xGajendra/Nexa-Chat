@@ -6,6 +6,8 @@ export const getAllUser = async (req, res)=> {
     try {
         const loggedInUserId = req.user._id;
         const filteredUsers = await User.find({_id : {$ne : loggedInUserId}}).select("-password"); //returns all the user except the logged in user
+        console.log("filteredUser", filteredUsers);
+        
         res.status(200).json(filteredUsers);
     } catch (error) {
         console.log("Error in getAllUsers: ", error.message);

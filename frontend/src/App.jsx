@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar/Navbar"
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import ProfilePage from "./pages/ProfilePage"
-import Settings from "./pages/Settings"
 import SignUpPage from "./pages/SignUpPage"
 import { useAuthStore } from "./store/authStore"
 
@@ -34,7 +33,6 @@ function App() {
           <Route path="/" element={authUser? <HomePage/> : <Navigate to="/login"/>}/>
           <Route path="/signup" element={!authUser ? <SignUpPage/>: <Navigate to="/" />}/>
           <Route path="/login" element={!authUser? <LoginPage/> : <Navigate to="/"/>}/>
-          <Route path="/settings" element={<Settings/>}/>
           <Route path="/profile" element={authUser? <ProfilePage/>: <Navigate to="/login"/>}/>
         </Routes>
       </div>
