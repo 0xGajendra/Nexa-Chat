@@ -82,12 +82,16 @@ export const updateProfile = async (req, res) => {
     try {
         const {profilePicture} = req.body;
         const userId = req.user._id; //this is possible becuase of verifyToken middleware
-
+        console.log("Pic aya");
+        
+        
         if(!profilePicture){
+            console.log("pic ni aya");
+            
             return res.status(400).json({message: "Profile pic is required"});
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePictconsture);
+        const uploadResponse = await cloudinary.uploader.upload(profilePicture);
         const updatedUser = await User.findByIdAndUpdate(userId, {profilePicture: uploadResponse.secure_url},{new: true}) //new:true returns the updated User not the old one(by default)
         res.status(200).json(updatedUser);
 

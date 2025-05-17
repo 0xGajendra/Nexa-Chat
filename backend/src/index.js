@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import cors from "cors"
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.use(cors({
     credentials: true
 }
 ));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json()); //extract json data from body
 app.use(cookieParser()); //to grab the token from the cookie
 

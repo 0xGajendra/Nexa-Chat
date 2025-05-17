@@ -1,28 +1,24 @@
+'use client';
 import AuthImagePattern from "@/components/AuthImagePattern";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthStore } from "@/store/authStore";
-import { Eye, EyeClosed, MessageSquare } from "lucide-react";
-import React, { useState } from "react";
+import { Eye, EyeClosed, Loader, MessageSquare } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
-
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
+   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
   });
+  const { login, isLoggingIn } = useAuthStore();
 
-  const { signup, isSigningUp } = useAuthStore();
-
-  const validateForm = () => {
-
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    login(formData);
   };
+  
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* leftside */}
@@ -32,9 +28,9 @@ const LoginPage = () => {
             <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
               <MessageSquare className="size-6 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold mt-2">Create Account</h1>
+            <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
             <p className="text-base-content/60">
-              Get started woth your free account
+              Login to your account
             </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -72,10 +68,16 @@ const LoginPage = () => {
               </button>
             </div>
             <Button className="mt-10 w-full hover:cursor-pointer">
-              <span>Create Account</span>
+              {isLoggingIn ? (
+                <>
+                  <Loader className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Sign in"
+              )}
             </Button>
           </form>
-
           <div className="text-center m-2 text-xs">
             <p className="opacity-80">
               Don&apos;t have an account?{" "}
@@ -88,11 +90,10 @@ const LoginPage = () => {
       </div>
       {/* right side */}
       <AuthImagePattern
-        title="Join our community"
-        subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
+        title={"Welcome back!"}
+        subtitle={"Sign in to continue your conversations and catch up with your messages."}
       />
     </div>
   );
 };
-
 export default LoginPage;
