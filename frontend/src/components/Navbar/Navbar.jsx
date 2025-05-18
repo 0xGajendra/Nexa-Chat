@@ -21,17 +21,17 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-10">
-            <Link
-              to={"/settings"}
-              className={`
-              btn btn-sm gap-2 transition-colors
-              flex justify-center
-              `}
-            >
-              <Settings className="w-4 h-4" />
-              <span className="hidden sm:inline text-xs ">Settings</span>
-            </Link>
+          <div className="flex items-center md:gap-10 gap-2">
+              <Link
+                to={"/settings"}
+                className={`
+                btn btn-sm gap-2 transition-colors
+                flex justify-center group
+                `}
+              >
+                <Settings className="w-4 h-4  transition-all duration-500 group-hover:rotate-180" />
+                <span className="hidden sm:inline text-xs ">Settings</span>
+              </Link>
 
             {authUser && (
               <>

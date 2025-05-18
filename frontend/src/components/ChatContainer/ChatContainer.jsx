@@ -1,11 +1,101 @@
-import React from 'react'
+import { useChatStore } from "@/store/chatStore";
+import React, { useEffect } from "react";
+import ChatHeader from "../ChatHeader/ChatHeader";
+import MessageInput from "../MessageInput/MessageInput";
+import MessageSkeleton from "../Messages/MessageSkeleton";
+import { useAuthStore } from "@/store/authStore";
+import { formatMessageTime } from "@/lib/utils";
 
 const ChatContainer = () => {
-  return (
-    <div>
-      ChatContainer
-    </div>
-  )
-}
+  const { messages, getMessages, isMessageLoading, selectedUser } =
+    useChatStore();
+  const { authUser } = useAuthStore();
 
-export default ChatContainer
+  useEffect(() => {
+    getMessages(selectedUser._id);
+  }, [selectedUser._id, getMessages]);
+  if (isMessageLoading)
+    return (
+      <div className="flex-1 flex flex-col overflow-auto">
+        <ChatHeader />
+        <MessageSkeleton />
+      </div>
+    );
+
+  return (
+    <div className="flex flex-1  flex-col overflow-auto">
+      <ChatHeader />
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map((message) => {
+          const isSender = message.senderId === authUser._id;
+          const isSelectedUser = message.senderId === selectedUser._id;
+
+          return (
+            <div
+              key={message._id}
+              className={`flex items-start space-x-2 w-full ${
+                isSelectedUser ? "justify-start" : "justify-end"
+              }`}
+            >
+              {/* Avatar */}
+              <div
+                className={`shrink-0 size-10 rounded-full border overflow-hidden ${
+                  isSelectedUser ? "" : "order-2"
+                }`}
+              >
+                <img
+                  src={
+                    isSender
+                      ? authUser.profilePicture || "/avatar.png"
+                      : selectedUser.profilePicture || "/avatar.png"
+                  }
+                  alt="profile-picture"
+                  className="object-cover size-full"
+                />
+              </div>
+
+              {/* Message Content */}
+              <div
+                className={`flex flex-col max-w-xs ${
+                  isSelectedUser
+                    ? "items-start text-left"
+                    : "items-end text-right"
+                }`}
+              >
+                {/* Timestamp */}
+                <time className="text-xs text-muted-foreground mb-1 opacity-70">
+                  {formatMessageTime(message.createdAt)}
+                </time>
+
+                {/* Message Bubble */}
+                <div
+                  className={`px-4 py-2 rounded-lg text-sm break-words ${
+                    isSelectedUser
+                      ? "bg-muted text-muted-foreground rounded-bl-none"
+                      : "bg-primary text-primary-foreground rounded-br-none"
+                  }`}
+                >
+                  {/* Image if exists */}
+                  {message.image && (
+                    <img
+                      src={message.image}
+                      alt="Attachment"
+                      className="sm:max-w-[200px] rounded-md mb-2"
+                    />
+                  )}
+                  {/* Text if exists */}
+                  {message.text && <p>{message.text}</p>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <MessageInput />
+    </div>
+  );
+};
+
+export default ChatContainer;
