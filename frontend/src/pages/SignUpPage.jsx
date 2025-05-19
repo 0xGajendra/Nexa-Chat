@@ -83,17 +83,17 @@ const SignUpPage = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
-              <button
+              <Button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center opacity-80"
+                className="absolute inset-y-0  right-1 flex justify-center my-auto bg-transparent cursor-pointer mx-auto items-center opacity-80"
               >
                 {showPassword ? (
                   <EyeClosed className="size-5" />
                 ) : (
                   <Eye className="size-5" />
                 )}
-              </button>
+              </Button>
             </div>
             <Button
               className="mt-10 w-full hover:cursor-pointer"

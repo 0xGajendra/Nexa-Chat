@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { ModeToggle } from "../mode-toggle";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
@@ -8,7 +9,7 @@ const Navbar = () => {
   return (
     <header
       className="border-accent border rounded-2xl border-base-300 fixed w-[80vw] top-2 z-40 
-    backdrop-blur-lg hover:border-white  transition-colors duration-500"
+    backdrop-blur-lg hover:border-white  transition-colors duration-500 shadow-2xl"
     >
       <div className="container mx-auto px-4 h-16">
         <div className="flex items-center justify-between h-full">
@@ -22,16 +23,14 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center md:gap-10 gap-2">
-              <Link
-                to={"/settings"}
+              <div
                 className={`
                 btn btn-sm gap-2 transition-colors
-                flex justify-center group
+                flex justify-center group cursor-pointer
                 `}
               >
-                <Settings className="w-4 h-4  transition-all duration-500 group-hover:rotate-180" />
-                <span className="hidden sm:inline text-xs ">Settings</span>
-              </Link>
+                <ModeToggle/>
+              </div>
 
             {authUser && (
               <>
@@ -40,7 +39,7 @@ const Navbar = () => {
                   <span className="hidden sm:inline text-xs">Profile</span>
                 </Link>
 
-                <button className="flex gap-2 items-center justify-center" onClick={logout}>
+                <button className="flex gap-2 items-center justify-center cursor-pointer" onClick={logout}>
                   <LogOut className="size-5" />
                   <span className="hidden sm:inline text-xs">Logout</span>
                 </button>

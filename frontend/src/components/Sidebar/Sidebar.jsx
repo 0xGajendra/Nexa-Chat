@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   if (isUsersLoading) return <SidebarSkeleton />;
   return (
-    <aside className="h-full w-20 lg:w-72 border-r border-primary flex flex-col">
+    <aside className="h-[99%] w-20 lg:w-72 border m-1 p-1 rounded-2xl shadow-2xl border-primary flex flex-col overflow-y-hidden">
       <div className="border-b border-primary w-full p-5">
         <div className="flex items-center gap-2 justify-center">
           <Users className="md:size-3 size-6" />
@@ -46,11 +46,11 @@ const Sidebar = () => {
             key={user._id}
             onClick={() => setSelectedUser(user)}
             className={`
-              max-w-full min-w-[95%] p-2 flex items-center gap-3
-  hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl hover:rounded-2xl border hover:scale-102 group transition-all duration-300
+              max-w-full min-w-[95%] p-2 flex items-center gap-3 m-1 shadow-2xl
+  hover:bg-background dark:hover:bg-background rounded-xl hover:rounded-2xl border hover:scale-102 group transition-all duration-200 cursor-pointer
   ${
     selectedUser?._id === user._id
-      ? "bg-zinc-100 dark:bg-zinc-800 ring-1 ring-zinc-300 dark:ring-zinc-600"
+      ? "bg-accent dark:bg-accent ring-1 ring-zinc-300 dark:ring-zinc-600"
       : ""
   }
             `}
@@ -59,7 +59,7 @@ const Sidebar = () => {
               <img
                 src={user.profilePicture || "/avatar.png"}
                 alt={user.name}
-                className="size-10 object-cover rounded-full group-hover:size-5 transition-all duration-300"
+                className="size-10 object-cover rounded-full group-hover:size-5 transition-all duration-200"
               />
               {onlineUsers.includes(user._id) && (
                 <span
@@ -70,8 +70,8 @@ const Sidebar = () => {
             </div>
 
             {/* User info - only visible on larger screens */}
-            <div className="hidden lg:block text-left min-w-0 ">
-              <div className="font-medium truncate group-hover:text-2xl transition-all duration-300">{(user.fullName)}</div>
+            <div className="md:block hidden text-left min-w-full ">
+              <div className="font-medium truncate group-hover:text-2xl transition-all duration-100">{(user.fullName)}</div>
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>

@@ -70,7 +70,7 @@ const MessageInput = () => {
     <div className="flex-1 flex gap-2 items-center my-auto">
       <input
         type="text"
-        className="w-full px-3 py-2 text-sm sm:text-base border border-zinc-300 dark:border-zinc-600 rounded-lg bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-3 py-2 text-sm sm:text-base border border-zinc-300 dark:border-zinc-600 rounded-lg bg-primary-foreground dark:bg-primary-foreground text-zinc-900  placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary"
         placeholder="Type a message..."
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -96,7 +96,7 @@ const MessageInput = () => {
     <button
       type="submit"
       disabled={!text.trim() && !imagePreview}
-      className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer bg-primary hover:bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-500 `}
+      className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer bg-primary hover:bg-secondary text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-500 `}
     >
       <Send size={15} />
     </button>
