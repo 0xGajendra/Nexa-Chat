@@ -1,5 +1,5 @@
 import cloudinary from "../config/cloudinary.js";
-import { getReceiverSocketId } from "../lib/socket.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
@@ -35,10 +35,10 @@ export const getMessage = async (req, res)=> {
 
 export const sendMessage = async (req, res)=> {
     try {
-
         const {text, image} = req.body;
         const {id: receiverId} = req.params;
-        const myId = req.user._id;
+        const senderId = req.user._id;
+        
         let imageUrl;
         if(image){
             //Upload base64 image to cloudinary
@@ -47,24 +47,22 @@ export const sendMessage = async (req, res)=> {
         }
 
         const newMessage = new Message({
-            senderId: myId,
+            senderId: senderId,
             receiverId: receiverId,
             text,
             image: imageUrl,
         })
         await newMessage.save();
 
-        //todo: realtime functionality goes here => socket.io
-
+        // Socket.io real-time functionality
         const receiverSocketId = getReceiverSocketId(receiverId);
-        if(receiverId){
-            io.to(receiverSocketId).emit("newMessage", newMessage); //.to help to send us data only to the reciever
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("newMessage", newMessage); // Send data only to the receiver
         }
 
         res.status(201).json(newMessage);
     } catch (error) {
         console.log("Error in sendMessage controller: ", error.message);
-        res.status(500).json({ messsage: "Internal server error"})
-        
+        res.status(500).json({ error: "Internal server error" });
     }
 }

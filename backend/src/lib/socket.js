@@ -4,6 +4,7 @@ import express from "express";
 
 const app = express();
 const server = http.createServer(app);
+const userSocketMap = {}; //{userId: socketId}
 
 const io = new Server(server, {
     cors:{
@@ -11,12 +12,15 @@ const io = new Server(server, {
     }
 });
 
-export const getReceiverSocketId = ()=>{
-    return userSocketMap[userId];
+export const getReceiverSocketId = (userId)=>{
+    try {   
+        return userSocketMap[userId]; 
+    } catch (error) {
+        console.log("Error in getReceiverSocketId", error.message); 
+    }
 }
 
 //used to store online users
-const userSocketMap = {}; //{userId: socketId}
 
 io.on("connection", (socket) => {
     console.log("A user connected", socket.id);
@@ -29,7 +33,7 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", ()=>{
         console.log("A user disconnected");
-        delete userSocketMap(userId);
+        delete userSocketMap[userId];
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
     })
 })

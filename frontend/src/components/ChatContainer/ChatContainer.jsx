@@ -1,5 +1,5 @@
 import { useChatStore } from "@/store/chatStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import ChatHeader from "../ChatHeader/ChatHeader";
 import MessageInput from "../MessageInput/MessageInput";
 import MessageSkeleton from "../Messages/MessageSkeleton";
@@ -7,13 +7,28 @@ import { useAuthStore } from "@/store/authStore";
 import { formatMessageTime } from "@/lib/utils";
 
 const ChatContainer = () => {
-  const { messages, getMessages, isMessageLoading, selectedUser } =
+  const { messages, getMessages, isMessageLoading, selectedUser, subscribeToMessages, unsubscribeFromMessages } =
     useChatStore();
   const { authUser } = useAuthStore();
 
+  const messageEndRef = useRef(null);
+
   useEffect(() => {
     getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+
+    subscribeToMessages();
+
+    //cleanup function
+    return ()=> unsubscribeFromMessages();
+
+  }, [selectedUser._id, getMessages,subscribeToMessages, unsubscribeFromMessages]);
+
+  useEffect(() => {
+    if(messageEndRef.current && messages)
+        messageEndRef.current.scrollIntoView({behavior: "smooth"});
+  }, [messages])
+  
+
   if (isMessageLoading)
     return (
       <div className="flex-1 flex flex-col overflow-auto">
@@ -23,20 +38,21 @@ const ChatContainer = () => {
     );
 
   return (
-    <div className="flex flex-1  flex-col overflow-auto">
+    <div className="flex flex-1  flex-col overflow-auto ">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => {
           const isSender = message.senderId === authUser._id;
           const isSelectedUser = message.senderId === selectedUser._id;
-
+          
           return (
             <div
               key={message._id}
               className={`flex items-start space-x-2 w-full ${
                 isSelectedUser ? "justify-start" : "justify-end"
               }`}
+              ref={messageEndRef}
             >
               {/* Avatar */}
               <div
@@ -85,7 +101,7 @@ const ChatContainer = () => {
                     />
                   )}
                   {/* Text if exists */}
-                  {message.text && <p>{message.text}</p>}
+                  {message.text && <p className="text-xs">{message.text}</p>}
                 </div>
               </div>
             </div>
