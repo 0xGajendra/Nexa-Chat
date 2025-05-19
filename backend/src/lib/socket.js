@@ -9,6 +9,7 @@ const userSocketMap = {}; //{userId: socketId}
 const io = new Server(server, {
     cors:{
         origin: process.env.FRONTEND_URL,
+        credentials: true,
     }
 });
 
