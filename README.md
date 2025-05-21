@@ -80,9 +80,9 @@ A professional, full-stack real-time chat application built with the MERN stack 
    MONGODB_URI=mongodb://localhost:27017/mydatabase
    JWT_SECRET=mysecretkey
    FRONTEND_URL=http://localhost:5173
-   CLOUDINARY_CLOUD_NAME=dw5vdutcd
-   CLOUDINARY_API_KEY=363986395715537
-   CLOUDINARY_API_SECRET=5I9M3kldwTK5GDjUNhpbh_1DYpI
+   CLOUDINARY_CLOUD_NAME=cloudname
+   CLOUDINARY_API_KEY=apikey
+   CLOUDINARY_API_SECRET=apisecret
    ```
 
    For the frontend, create a `.env` file in the frontend directory:
